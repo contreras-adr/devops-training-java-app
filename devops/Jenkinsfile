@@ -1,28 +1,41 @@
-/* 
-  Practica 2 - ejercicio 2
-*/
- 
-pipeline {  
+pipeline {
   agent any
 
   stages {
     stage('Info') {
       steps {
-        sh 'echo "Job: $JOB_NAME"'
-        sh 'echo "build: $BUILD_NUMBER"'
-      }      
+        echo "Job: ${env.JOB_NAME}"
+        echo "Build: ${env.BUILD_NUMBER}"
+      }
     }
-    stage('Test') {      
+
+    stage('CI Lint') {
       agent {
         docker {
           image 'maven:3.8.6-openjdk-11-slim'
-          args '-u root:root' // opcional: evita problemas de permisos
+          args '-u root:root'
         }
       }
       steps {
-        sh 'mvn -version'
-        sh 'mvn test'
+        sh 'mvn -v'
+        // Ejecuta el target lint del Makefile
+        sh 'make lint'
+      }
+    }
+
+    stage('CI Test') {
+      agent {
+        docker {
+          image 'maven:3.8.6-openjdk-11-slim'
+          args '-u root:root'
+        }
+      }
+      steps {
+        sh 'mvn -v'
+        // Ejecuta el target test del Makefile
+        sh 'make test'
       }
     }
   }
 }
+
