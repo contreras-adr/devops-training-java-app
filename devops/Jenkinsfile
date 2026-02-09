@@ -41,6 +41,15 @@ pipeline {
          sh 'make lint'
       }
     }*/
+    stage('CI - Lint') {
+      steps {
+        script {
+          runInDocker(env.CI_IMAGE) {
+            sh 'make lint'
+          }
+        }
+      }
+    }
     stage('CI - Test') {
       steps {
          sh 'make test'
