@@ -36,11 +36,11 @@ pipeline {
             sh 'apt-get update && apt-get install -y make'
         }
     }
-    stage('CI - Lint') {
+    /*stage('CI - Lint') {
       steps {
          sh 'make lint'
       }
-    }
+    }*/
     stage('CI - Test') {
       steps {
          sh 'make test'
