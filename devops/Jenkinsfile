@@ -38,12 +38,21 @@ pipeline {
          sh 'make lint'
       }
     }*/
-    /*stage('CI - Lint') {
-      steps {
-        sh 'apt-get update && apt-get install -y make'
-        sh 'make lint' // Aquí el Makefile ejecutará: mvn -q -DskipTests=true test
+
+    stage('CI - Lint') {
+      agent {
+        docker {
+          image 'maven:3.8.6-openjdk-11-slim'
+          args '-u root'
+        }
       }
-    }*/
+      steps {
+        // Actualizamos e instalamos make
+         sh 'apt-get update && apt-get install -y make'
+         sh 'make lint'
+      }
+    }
+    
     stage('CI - Test') {
       agent {
         docker {
