@@ -38,9 +38,7 @@ pipeline {
     }
     stage('CI - Lint') {
       steps {
-        script {
-          sh 'make lint'
-        }
+         sh 'make lint'
       }
     }
     stage('CI - Test') {
