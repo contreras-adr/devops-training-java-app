@@ -42,12 +42,12 @@ pipeline {
       }
     }*/
     stage('CI - Lint') {
+      agent {
+        docker { image 'maven:3.8.6-openjdk-11-slim' }
+      }
       steps {
-        script {
-          runInDocker(env.CI_IMAGE) {
-            sh 'make lint'
-          }
-        }
+          sh 'apt-get update && apt-get install -y make'
+          sh 'make lint' // Aquí el Makefile ejecutará: mvn -q -DskipTests=true test
       }
     }
     stage('CI - Test') {
