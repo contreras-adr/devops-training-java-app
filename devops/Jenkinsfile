@@ -33,19 +33,14 @@ pipeline {
     stage('CI - Lint') {
       steps {
         script {
-          devopsLib.runInDocker(env.CI_IMAGE) {
-            sh 'make lint'
-          }
+          sh 'apt-get update && apt-get install -y make'
+          sh 'make lint'
         }
       }
     }
     stage('CI - Test') {
       steps {
-        script {
-          devopsLib.runInDocker(env.CI_IMAGE) {
-             sh 'make test'
-           }
-        }
+         sh 'make test'
       }
     }
   }
