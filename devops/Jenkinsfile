@@ -3,7 +3,7 @@ pipeline {
   agent any
 
   environment {
-    CI_IMAGE = "java-ci-tools:${env.BUILD_NUMBER}"
+    CI_IMAGE = 'java-ci-tools:${env.BUILD_NUMBER}'
   }  
 
   stages {
