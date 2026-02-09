@@ -30,7 +30,7 @@ pipeline {
         sh 'mvn test'
       }
     }
-    tage('CI - Lint') {
+    stage('CI - Lint') {
       steps {
         script {
           devopsLib.runInDocker(env.CI_IMAGE) {
