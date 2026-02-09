@@ -1,13 +1,13 @@
 pipeline {
   // `agent any` = el pipeline se ejecuta en cualquier nodo/agente disponible.
   //agent any
-  environment {
+  /*environment {
     MAVEN_IMAGE = 'maven:3.8.6-openjdk-11-slim'
-  } 
+  } */
   
   agent {
     docker {
-      image MAVEN_IMAGE
+      image 'maven:3.8.6-openjdk-11-slim'
       args '-u root'
     }
   }  
