@@ -30,10 +30,15 @@ pipeline {
         sh 'mvn test'
       }
     }
+    stage('Prepare') {
+        steps {
+            // Las imágenes slim de Java tampoco suelen traer 'make'
+            sh 'apt-get update && apt-get install -y make'
+        }
+    }
     stage('CI - Lint') {
       steps {
         script {
-          sh 'apt-get update && apt-get install -y make'
           sh 'make lint'
         }
       }
