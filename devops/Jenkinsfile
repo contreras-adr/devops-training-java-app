@@ -2,11 +2,16 @@ pipeline {
   // `agent any` = el pipeline se ejecuta en cualquier nodo/agente disponible.
   agent any
 
+  environment {
+    CI_IMAGE = "java-ci-tools:${env.BUILD_NUMBER}"
+  }  
+
   stages {
     stage('Info') {
       steps {
         echo "Job: ${env.JOB_NAME}"
         echo "Build: ${env.BUILD_NUMBER}"
+        echo "Branch: ${env.BRANCH_NAME}"
       }
     }
     stage('Test') {
@@ -23,6 +28,24 @@ pipeline {
       steps {
         sh 'mvn -version'
         sh 'mvn test'
+      }
+    }
+    tage('CI - Lint') {
+      steps {
+        script {
+          devopsLib.runInDocker(env.CI_IMAGE) {
+            sh 'make lint'
+          }
+        }
+      }
+    }
+    stage('CI - Test') {
+      steps {
+        script {
+          devopsLib.runInDocker(env.CI_IMAGE) {
+             sh 'make test'
+           }
+        }
       }
     }
   }
