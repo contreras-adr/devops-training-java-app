@@ -20,6 +20,7 @@ pipeline {
       agent {
         docker {
           image 'maven:3.8.6-openjdk-11-slim'
+          args '-u root'
         }
       }
       steps {
@@ -33,19 +34,14 @@ pipeline {
             sh 'apt-get update && apt-get install -y make'
         }
     }
-    /*stage('CI - Lint') {
-      steps {
-         sh 'make lint'
-      }
-    }*/
 
     stage('CI - Lint') {
-      agent {
+      /**agent {
         docker {
           image 'maven:3.8.6-openjdk-11-slim'
           args '-u root'
         }
-      }
+      }*/
       steps {
         // Actualizamos e instalamos make
          sh 'apt-get update && apt-get install -y make'
@@ -54,15 +50,15 @@ pipeline {
     }
     
     stage('CI - Test') {
-      agent {
+      /*agent {
         docker {
           image 'maven:3.8.6-openjdk-11-slim'
           args '-u root'
         }
-      }
+      }*/
       steps {
         // Actualizamos e instalamos make
-         sh 'apt-get update && apt-get install -y make'
+         //sh 'apt-get update && apt-get install -y make'
          sh 'make test'
       }
     }
