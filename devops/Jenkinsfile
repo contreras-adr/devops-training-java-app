@@ -1,6 +1,11 @@
 pipeline {
   // `agent any` = el pipeline se ejecuta en cualquier nodo/agente disponible.
-  agent any
+  //agent any
+  agent {
+        docker {
+          image 'maven:3.8.6-openjdk-11-slim'
+          args '-u root'
+        }
 
   stages {
     stage('Info') {
@@ -12,17 +17,12 @@ pipeline {
     }
     
     stage('Test') {
-      /*
-        `agent` dentro de un stage permite que SOLO ese stage se ejecute en un contexto concreto.
-        En este caso, usamos Docker como capa de virtualizacion: los comandos se ejecutan dentro
-        de un contenedor temporal.
-      */
-      agent {
+      /*agent {
         docker {
           image 'maven:3.8.6-openjdk-11-slim'
           args '-u root'
         }
-      }
+      }*/
       steps {
         sh 'mvn -version'
         sh 'mvn test'
